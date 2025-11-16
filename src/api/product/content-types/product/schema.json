@@ -1,0 +1,109 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sku": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "available": {
+      "type": "boolean",
+      "default": true
+    },
+    "vendor": {
+      "type": "string"
+    },
+    "vendorCode": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "count": {
+      "type": "biginteger",
+      "min": "0"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "oldPrice": {
+      "type": "decimal"
+    },
+    "topBottom": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "rise": {
+      "type": "string"
+    },
+    "subcategory": {
+      "type": "string"
+    },
+    "shortName": {
+      "type": "string"
+    },
+    "fitBottom": {
+      "type": "string"
+    },
+    "season": {
+      "type": "string"
+    },
+    "seasonality": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "composition": {
+      "type": "string"
+    },
+    "waist": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string"
+    },
+    "categoryParam": {
+      "type": "string"
+    },
+    "manufaktura": {
+      "type": "string"
+    },
+    "denomination": {
+      "type": "string"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "mappedBy": "products"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    }
+  }
+}

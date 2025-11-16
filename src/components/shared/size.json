@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_sizes",
+  "info": {
+    "displayName": "Size",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "size": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}
