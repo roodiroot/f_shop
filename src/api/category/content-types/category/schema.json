@@ -32,15 +32,15 @@
     },
     "children": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "api::category.category",
-      "inversedBy": "parent"
+      "mappedBy": "parent"
     },
     "parent": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToOne",
       "target": "api::category.category",
-      "mappedBy": "children"
+      "inversedBy": "children"
     }
   }
 }
