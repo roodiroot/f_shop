@@ -15,15 +15,15 @@ export default {
       const knex = strapi.db.connection;
 
       const filters = {
-        genders: await distinct(knex, "gender", categoryIds),
-        colors: await distinct(knex, "color", categoryIds),
-        topBottoms: await distinct(knex, "top_bottom", categoryIds),
-        rises: await distinct(knex, "rise", categoryIds),
-        seasons: await distinct(knex, "season", categoryIds),
-        seasonalityes: await distinct(knex, "seasonality", categoryIds),
-        compositions: await distinct(knex, "composition", categoryIds),
-        denominations: await distinct(knex, "denomination", categoryIds),
-        categoryParams: await distinct(knex, "category_param", categoryIds),
+        gender: await distinct(knex, "gender", categoryIds),
+        color: await distinct(knex, "color", categoryIds),
+        topBottom: await distinct(knex, "top_bottom", categoryIds),
+        rise: await distinct(knex, "rise", categoryIds),
+        season: await distinct(knex, "season", categoryIds),
+        seasonality: await distinct(knex, "seasonality", categoryIds),
+        composition: await distinct(knex, "composition", categoryIds),
+        denomination: await distinct(knex, "denomination", categoryIds),
+        categoryParam: await distinct(knex, "category_param", categoryIds),
         minPrice: await min(knex, "price", categoryIds),
         maxPrice: await max(knex, "price", categoryIds),
       };
