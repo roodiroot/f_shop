@@ -104,6 +104,12 @@
     "slug": {
       "type": "uid",
       "targetField": "name"
+    },
+    "order_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-item.order-item",
+      "mappedBy": "product"
     }
   }
 }
