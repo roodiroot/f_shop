@@ -51,6 +51,9 @@
       "relation": "oneToMany",
       "target": "api::order-item.order-item",
       "mappedBy": "order"
+    },
+    "email": {
+      "type": "email"
     }
   }
 }
