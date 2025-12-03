@@ -16,7 +16,6 @@ export default {
 
       const filters = {
         gender: await distinct(knex, "gender", categoryIds),
-        color: await distinct(knex, "color", categoryIds),
         topBottom: await distinct(knex, "top_bottom", categoryIds),
         rise: await distinct(knex, "rise", categoryIds),
         season: await distinct(knex, "season", categoryIds),
@@ -24,8 +23,6 @@ export default {
         composition: await distinct(knex, "composition", categoryIds),
         denomination: await distinct(knex, "denomination", categoryIds),
         categoryParam: await distinct(knex, "category_param", categoryIds),
-        minPrice: await min(knex, "price", categoryIds),
-        maxPrice: await max(knex, "price", categoryIds),
       };
 
       ctx.body = { filters };
