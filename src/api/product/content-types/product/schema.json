@@ -16,14 +16,6 @@
       "required": true,
       "unique": false
     },
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "available": {
-      "type": "boolean",
-      "default": true
-    },
     "vendor": {
       "type": "string"
     },
@@ -39,16 +31,6 @@
       "allowedTypes": [
         "images"
       ]
-    },
-    "count": {
-      "type": "biginteger",
-      "min": "0"
-    },
-    "price": {
-      "type": "decimal"
-    },
-    "oldPrice": {
-      "type": "decimal"
     },
     "topBottom": {
       "type": "string"
@@ -74,16 +56,10 @@
     "seasonality": {
       "type": "string"
     },
-    "color": {
-      "type": "string"
-    },
     "composition": {
       "type": "string"
     },
     "waist": {
-      "type": "string"
-    },
-    "size": {
       "type": "string"
     },
     "categoryParam": {
@@ -102,13 +78,18 @@
       "mappedBy": "products"
     },
     "slug": {
-      "type": "uid",
-      "targetField": "name"
+      "type": "uid"
     },
     "order_items": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::order-item.order-item",
+      "mappedBy": "product"
+    },
+    "product_variants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-variant.product-variant",
       "mappedBy": "product"
     }
   }

@@ -670,6 +670,41 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiProductVariantProductVariant
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_variants';
+  info: {
+    displayName: 'ProductVariant';
+    pluralName: 'product-variants';
+    singularName: 'product-variant';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    color: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-variant.product-variant'
+    > &
+      Schema.Attribute.Private;
+    oldPrice: Schema.Attribute.Decimal;
+    price: Schema.Attribute.Decimal;
+    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    size: Schema.Attribute.String;
+    stock: Schema.Attribute.BigInteger;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -681,21 +716,12 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    available: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     categories: Schema.Attribute.Relation<
       'manyToMany',
       'api::category.category'
     >;
     categoryParam: Schema.Attribute.String;
-    color: Schema.Attribute.String;
     composition: Schema.Attribute.String;
-    count: Schema.Attribute.BigInteger &
-      Schema.Attribute.SetMinMax<
-        {
-          min: '0';
-        },
-        string
-      >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -711,21 +737,21 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     manufaktura: Schema.Attribute.String;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    oldPrice: Schema.Attribute.Decimal;
     order_items: Schema.Attribute.Relation<
       'oneToMany',
       'api::order-item.order-item'
     >;
-    price: Schema.Attribute.Decimal;
+    product_variants: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-variant.product-variant'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     rise: Schema.Attribute.String;
     season: Schema.Attribute.String;
     seasonality: Schema.Attribute.String;
     shortName: Schema.Attribute.String;
-    size: Schema.Attribute.String;
     sku: Schema.Attribute.String & Schema.Attribute.Required;
-    slug: Schema.Attribute.UID<'name'>;
+    slug: Schema.Attribute.UID;
     subcategory: Schema.Attribute.String;
     topBottom: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -1254,6 +1280,7 @@ declare module '@strapi/strapi' {
       'api::global.global': ApiGlobalGlobal;
       'api::order-item.order-item': ApiOrderItemOrderItem;
       'api::order.order': ApiOrderOrder;
+      'api::product-variant.product-variant': ApiProductVariantProductVariant;
       'api::product.product': ApiProductProduct;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
