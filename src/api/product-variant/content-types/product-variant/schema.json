@@ -24,6 +24,9 @@
     "color": {
       "type": "string"
     },
+    "colorHex": {
+      "type": "string"
+    },
     "size": {
       "type": "string"
     },
@@ -35,6 +38,13 @@
     },
     "stock": {
       "type": "biginteger"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }

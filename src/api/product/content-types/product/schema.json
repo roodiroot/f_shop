@@ -25,13 +25,6 @@
     "description": {
       "type": "richtext"
     },
-    "images": {
-      "type": "media",
-      "multiple": true,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "topBottom": {
       "type": "string"
     },
