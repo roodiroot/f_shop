@@ -35,9 +35,19 @@ export default {
 
       for (const cartItem of items) {
         const variant = variantMap.get(cartItem.variantId);
+        const quantity = cartItem.quantity;
 
         if (!variant) {
           return ctx.badRequest(`Вариант ${cartItem.variantId} не найден`);
+        }
+
+        const stock = Number(variant.stock || 0);
+        const requested = Number(quantity || 0);
+
+        if (stock < requested) {
+          return ctx.badRequest(
+            `Товаров осталось ${stock}, а в заказе указано ${requested}`
+          );
         }
 
         const price = variant.price;
@@ -151,16 +161,64 @@ export default {
 
       const paymentId = payment.id;
 
-      if (event === "payment.succeeded") {
-        await strapi.documents("api::order.order").update({
-          documentId: orderId,
-          data: {
-            statusOrder: "paid",
-            paymentId,
+      const order = await strapi.documents("api::order.order").findOne({
+        documentId: orderId.toString(),
+        populate: {
+          order_items: {
+            populate: ["product_variant"],
           },
-          status: "published",
-        });
+        },
+      });
+
+      if (!order) {
+        strapi.log.error(`YooKassa webhook: заказ ${orderId} не найден`);
+        ctx.body = { ok: true };
+        return;
+      }
+
+      if (order.statusOrder === "paid") {
+        strapi.log.info(
+          `YooKassa webhook: заказ ${orderId} уже оплачен, повторный вызов пропускаем`
+        );
+        ctx.body = { ok: true };
+        return;
+      }
+
+      if (event === "payment.succeeded") {
+        strapi.log.info(
+          `YooKassa webhook: оплата успешна для заказа ${orderId}`
+        );
+
+        for (const item of order.order_items || []) {
+          const variantDocId = item.product_variant?.documentId;
+          if (!variantDocId) continue;
+
+          const variant = await strapi
+            .documents("api::product-variant.product-variant")
+            .findOne({
+              documentId: variantDocId,
+            });
+
+          if (!variant) continue;
+
+          const currentStock = Number(variant.stock || 0);
+          const qty = Number(item.quantity || 0);
+
+          await strapi
+            .documents("api::product-variant.product-variant")
+            .update({
+              documentId: variantDocId,
+              data: {
+                stock: Math.max(currentStock - qty, 0),
+              },
+              status: "published",
+            });
+        }
       } else if (event === "payment.canceled") {
+        strapi.log.info(
+          `YooKassa webhook: оплата ОТМЕНЕНА для заказа ${orderId}`
+        );
+
         await strapi.documents("api::order.order").update({
           documentId: orderId,
           data: {
