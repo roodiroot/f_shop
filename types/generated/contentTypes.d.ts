@@ -610,6 +610,7 @@ export interface ApiOrderItemOrderItem extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    lineTotal: Schema.Attribute.Decimal;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -619,6 +620,10 @@ export interface ApiOrderItemOrderItem extends Struct.CollectionTypeSchema {
     order: Schema.Attribute.Relation<'manyToOne', 'api::order.order'>;
     price: Schema.Attribute.Decimal;
     product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
+    product_variant: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-variant.product-variant'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     quantity: Schema.Attribute.BigInteger;
     sku: Schema.Attribute.String;
@@ -653,11 +658,12 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::order-item.order-item'
     >;
+    paymentId: Schema.Attribute.String;
     paymentMethod: Schema.Attribute.Enumeration<['card', 'cash', 'online']>;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     statusOrder: Schema.Attribute.Enumeration<
-      ['pending', 'paid', 'shipped', 'canceled']
+      ['pending', 'paid', 'shipped', 'canceled', 'waiting_for_payment']
     >;
     totalPrice: Schema.Attribute.Decimal;
     updatedAt: Schema.Attribute.DateTime;
@@ -696,6 +702,10 @@ export interface ApiProductVariantProductVariant
     > &
       Schema.Attribute.Private;
     oldPrice: Schema.Attribute.Decimal;
+    order_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::order-item.order-item'
+    >;
     price: Schema.Attribute.Decimal;
     product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;

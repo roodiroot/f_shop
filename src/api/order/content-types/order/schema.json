@@ -23,7 +23,8 @@
         "pending",
         "paid",
         "shipped",
-        "canceled"
+        "canceled",
+        "waiting_for_payment"
       ]
     },
     "totalPrice": {
@@ -54,6 +55,9 @@
     },
     "email": {
       "type": "email"
+    },
+    "paymentId": {
+      "type": "string"
     }
   }
 }

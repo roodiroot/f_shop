@@ -16,11 +16,12 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
+    "@appigram/yookassa-node": "^1.1.11",
     "@strapi/plugin-cloud": "5.31.0",
     "@strapi/plugin-graphql": "^5.31.0",
     "@strapi/plugin-users-permissions": "5.31.0",
     "@strapi/provider-email-nodemailer": "^5.31.2",
-    "@strapi/strapi": "5.31.0",
+    "@strapi/strapi": "^5.31.3",
     "fs-extra": "^10.0.0",
     "mime-types": "^2.1.27",
     "pg": "8.8.0",

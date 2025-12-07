@@ -23,6 +23,12 @@
       "target": "api::product.product",
       "inversedBy": "order_items"
     },
+    "product_variant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-variant.product-variant",
+      "inversedBy": "order_items"
+    },
     "title": {
       "type": "string"
     },
@@ -34,6 +40,9 @@
     },
     "sku": {
       "type": "string"
+    },
+    "lineTotal": {
+      "type": "decimal"
     }
   }
 }
