@@ -189,6 +189,15 @@ export default {
           `YooKassa webhook: оплата успешна для заказа ${orderId}`
         );
 
+        await strapi.documents("api::order.order").update({
+          documentId: orderId,
+          data: {
+            statusOrder: "paid",
+            paymentId,
+          },
+          status: "published",
+        });
+
         for (const item of order.order_items || []) {
           const variantDocId = item.product_variant?.documentId;
           if (!variantDocId) continue;
