@@ -6,7 +6,7 @@ const yooKassa = require("@appigram/yookassa-node")({
 export default {
   async pay(ctx) {
     try {
-      const { documentId } = ctx.params;
+      const documentId = ctx.params.documentId;
 
       if (!documentId) {
         return ctx.badRequest("Не указан id заказа");

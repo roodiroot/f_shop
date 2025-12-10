@@ -15,7 +15,7 @@ export default {
     },
     {
       method: "POST",
-      path: "/payments/pay",
+      path: "/payments/pay/:documentId",
       handler: "checkout.pay",
       config: {
         auth: false,
