@@ -13,5 +13,13 @@ export default {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/payments/pay",
+      handler: "checkout.pay",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
