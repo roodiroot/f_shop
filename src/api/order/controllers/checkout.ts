@@ -4,6 +4,76 @@ const yooKassa = require("@appigram/yookassa-node")({
 });
 
 export default {
+  async pay(ctx) {
+    try {
+      const { documentId } = ctx.params;
+
+      if (!documentId) {
+        return ctx.badRequest("Не указан id заказа");
+      }
+
+      const order = await strapi.documents("api::order.order").findOne({
+        documentId,
+      });
+
+      if (!order) {
+        return ctx.notFound("Заказ не найден");
+      }
+
+      if (order.statusOrder === "paid") {
+        return ctx.badRequest("Заказ уже оплачен");
+      }
+
+      const totalPrice = Number(order.totalPrice || 0);
+
+      if (!totalPrice || totalPrice <= 0) {
+        return ctx.badRequest("Некорректная сумма заказа");
+      }
+
+      const idempotenceKey = `${order.documentId}-${Date.now()}`;
+
+      const payment = await yooKassa.createPayment(
+        {
+          amount: {
+            value: totalPrice.toFixed(2),
+            currency: "RUB",
+          },
+          payment_method_data: {
+            type: "bank_card",
+          },
+          confirmation: {
+            type: "redirect",
+            return_url: `${process.env.FRONTEND_URL}/order/${order.documentId}/success`,
+          },
+          capture: true,
+          description: `Заказ #${order.documentId}`,
+          metadata: {
+            orderId: order.documentId,
+          },
+        },
+        idempotenceKey
+      );
+
+      await strapi.documents("api::order.order").update({
+        documentId: order.documentId,
+        data: {
+          statusOrder: "waiting_for_payment",
+          paymentId: payment.id,
+        },
+        status: "published",
+      });
+
+      ctx.body = {
+        orderId: order.documentId,
+        totalPrice,
+        confirmationUrl: payment.confirmation.confirmation_url,
+      };
+    } catch (error) {
+      console.error("Ошибка повторной оплаты:", error);
+      return ctx.internalServerError("Ошибка при попытке повторной оплаты");
+    }
+  },
+
   async checkout(ctx) {
     try {
       const { customer, items, paymentMethod } = ctx.request.body;
