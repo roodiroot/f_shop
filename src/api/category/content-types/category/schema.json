@@ -41,6 +41,23 @@
       "relation": "manyToOne",
       "target": "api::category.category",
       "inversedBy": "children"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "description": {
+      "type": "text"
     }
   }
 }
