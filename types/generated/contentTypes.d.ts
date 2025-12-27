@@ -744,6 +744,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     description: Schema.Attribute.RichText;
     fitBottom: Schema.Attribute.String;
     gender: Schema.Attribute.String;
+    hit: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -761,6 +762,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     >;
     publishedAt: Schema.Attribute.DateTime;
     rise: Schema.Attribute.String;
+    sale: Schema.Attribute.BigInteger;
     season: Schema.Attribute.String;
     seasonality: Schema.Attribute.String;
     shortName: Schema.Attribute.String;

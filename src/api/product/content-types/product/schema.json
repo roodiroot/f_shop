@@ -84,6 +84,12 @@
       "relation": "oneToMany",
       "target": "api::product-variant.product-variant",
       "mappedBy": "product"
+    },
+    "hit": {
+      "type": "boolean"
+    },
+    "sale": {
+      "type": "biginteger"
     }
   }
 }
